@@ -10,6 +10,9 @@
         public decimal TotalAmount { get; set; }
         public string Status { get; set; }
         public string Remarks { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
 
     

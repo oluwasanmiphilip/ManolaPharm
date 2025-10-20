@@ -10,6 +10,9 @@
         public DateTime? PaymentDate { get; set; }
         public string Status { get; set; }
         public string Remarks { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public bool IsActive { get; internal set; }
     }
 
    

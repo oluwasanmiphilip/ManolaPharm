@@ -22,14 +22,36 @@ namespace ManolaPharm.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            var result = await _service.GetByIdAsync(id);
+            if (result == null) return NotFound();
+            return Ok(result);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(PurchaseOrderCreateDto dto)
         {
             var success = await _service.CreateAsync(dto);
-            if (!success)
-                return BadRequest("Failed to create purchase order.");
-
+            if (!success) return BadRequest("Failed to create purchase order.");
             return Ok("Purchase order created successfully.");
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(PurchaseOrderUpdateDto dto)
+        {
+            var success = await _service.UpdateAsync(dto);
+            if (!success) return NotFound("Purchase order not found.");
+            return Ok("Purchase order updated successfully.");
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var success = await _service.DeleteAsync(id);
+            if (!success) return NotFound("Purchase order not found.");
+            return Ok("Purchase order deleted successfully.");
         }
     }
 }
