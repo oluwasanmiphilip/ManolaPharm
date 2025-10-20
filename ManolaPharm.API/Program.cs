@@ -1,4 +1,5 @@
 using ManolaPharm.Application.Services;
+using ManolaPharm.Domain.Entities.HR;
 using ManolaPharm.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,12 @@ builder.Services.AddScoped<PurchaseOrderService>();
 builder.Services.AddScoped<SalesOrderService>();
 builder.Services.AddScoped<AccountsReceivableService>();
 builder.Services.AddScoped<AccountsPayableService>();
+builder.Services.AddScoped<EmployeeService>();
+builder.Services.AddScoped<PayrollService>();
+builder.Services.AddScoped<ExpenseService>();
+
+
+
 
 
 

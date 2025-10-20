@@ -1,11 +1,13 @@
 ﻿using ManolaPharm.Domain.Entities.Customer;
 using ManolaPharm.Domain.Entities.Finance;
+using ManolaPharm.Domain.Entities.HR;
 using ManolaPharm.Domain.Entities.Inventory;
 using ManolaPharm.Domain.Entities.Product;
 using ManolaPharm.Domain.Entities.Purchasing;
 using ManolaPharm.Domain.Entities.Sales;
 using ManolaPharm.Domain.Entities.Supplier;
 using ManolaPharm.Domain.Entities.Warehouse;
+using ManolaPharm.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -28,11 +30,11 @@ namespace ManolaPharm.Persistence.Context
         public DbSet<SalesOrder> SalesOrders { get; set; }
         public DbSet<AccountsReceivable> AccountsReceivable { get; set; }
         public DbSet<AccountsPayable> AccountsPayable { get; set; }
-        // public DbSet<Employee> Employees { get; set; }
-        // public DbSet<Payroll> Payrolls { get; set; }
-        // public DbSet<Expense> Expenses { get; set; }
-        // public DbSet<Department> Departments { get; set; }
-        // public DbSet<Role> Roles { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Payroll> Payrolls { get; set; }
+        public DbSet<Expense> Expenses { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Role> Roles { get; set; }
         // public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -40,7 +42,21 @@ namespace ManolaPharm.Persistence.Context
             base.OnModelCreating(modelBuilder);
 
             // Apply configurations here later
-            // modelBuilder.ApplyConfiguration(new CustomerConfiguration());
+            modelBuilder.ApplyConfiguration(new PayrollConfiguration());
+            modelBuilder.ApplyConfiguration(new ExpenseConfiguration());
+
+            modelBuilder.ApplyConfiguration(new CustomerConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductConfiguration());
+            modelBuilder.ApplyConfiguration(new InventoryConfiguration());
+            modelBuilder.ApplyConfiguration(new WarehouseConfiguration());
+            modelBuilder.ApplyConfiguration(new SupplierConfiguration());
+            modelBuilder.ApplyConfiguration(new PurchaseOrderConfiguration());
+            modelBuilder.ApplyConfiguration(new SalesOrderConfiguration());
+            modelBuilder.ApplyConfiguration(new AccountsReceivableConfiguration());
+            modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
+           
+            
+            
         }
     }
 }
