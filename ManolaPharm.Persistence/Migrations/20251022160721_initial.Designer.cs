@@ -4,6 +4,7 @@ using ManolaPharm.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ManolaPharm.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251022160721_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -135,10 +138,10 @@ namespace ManolaPharm.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("AmountOwed")
+                    b.Property<decimal>("AmountDue")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("AmountPaid")
+                    b.Property<decimal>("AmountReceived")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("decimal(18,2)")
                         .HasDefaultValue(0m);
@@ -796,13 +799,11 @@ namespace ManolaPharm.Persistence.Migrations
 
             modelBuilder.Entity("ManolaPharm.Domain.Entities.Finance.AccountsReceivable", b =>
                 {
-                    b.HasOne("ManolaPharm.Domain.Entities.Sales.SalesOrder", "SalesOrder")
+                    b.HasOne("ManolaPharm.Domain.Entities.Sales.SalesOrder", null)
                         .WithMany()
                         .HasForeignKey("SalesOrderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("SalesOrder");
                 });
 
             modelBuilder.Entity("ManolaPharm.Domain.Entities.HR.Employee", b =>

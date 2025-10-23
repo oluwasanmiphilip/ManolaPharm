@@ -11,4 +11,8 @@
     <ProjectReference Include="..\ManolaPharm.Persistence\ManolaPharm.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Interfaces\HR\" />
+  </ItemGroup>
+
 </Project>

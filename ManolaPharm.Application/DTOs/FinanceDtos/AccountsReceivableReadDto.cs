@@ -1,24 +1,18 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace ManolaPharm.Application.DTOs.Finance.AccountsReceivableDtos
 {
-    public class AccountsReceivableUpdateDto
+    public class AccountsReceivableReadDto
     {
-        [Required]
+        public Guid Id { get; set; }
+        public Guid SalesOrderId { get; set; }
         public decimal AmountOwed { get; set; }
-
         public decimal AmountPaid { get; set; }
-
-        [Required]
         public DateTime DueDate { get; set; }
-
         public DateTime? PaymentDate { get; set; }
-
-        [Required, MaxLength(20)]
         public string Status { get; set; }
-
-        [MaxLength(250)]
         public string Remarks { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

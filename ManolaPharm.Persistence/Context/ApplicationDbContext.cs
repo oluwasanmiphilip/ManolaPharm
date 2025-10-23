@@ -6,8 +6,10 @@ using ManolaPharm.Domain.Entities.Product;
 using ManolaPharm.Domain.Entities.Purchasing;
 using ManolaPharm.Domain.Entities.Sales;
 using ManolaPharm.Domain.Entities.Supplier;
+using ManolaPharm.Domain.Entities.Users;
 using ManolaPharm.Domain.Entities.Warehouse;
 using ManolaPharm.Persistence.Configurations;
+using ManolaPharm.Persistence.Configurations.Finance;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -28,14 +30,16 @@ namespace ManolaPharm.Persistence.Context
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
         public DbSet<SalesOrder> SalesOrders { get; set; }
-        public DbSet<AccountsReceivable> AccountsReceivable { get; set; }
-        public DbSet<AccountsPayable> AccountsPayable { get; set; }
+        public DbSet<AccountsReceivable> AccountsReceivables { get; set; } // Finance
+        public DbSet<AccountsPayable> AccountsPayables { get; set; } // Finance
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Payroll> Payrolls { get; set; }
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Role> Roles { get; set; }
-        // public DbSet<User> Users { get; set; }
+        public DbSet<User> Users { get; set; }
+        
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -44,7 +48,7 @@ namespace ManolaPharm.Persistence.Context
             // Apply configurations here later
             modelBuilder.ApplyConfiguration(new PayrollConfiguration());
             modelBuilder.ApplyConfiguration(new ExpenseConfiguration());
-
+            modelBuilder.ApplyConfiguration(new DepartmentConfiguration());
             modelBuilder.ApplyConfiguration(new CustomerConfiguration());
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
             modelBuilder.ApplyConfiguration(new InventoryConfiguration());
@@ -52,8 +56,11 @@ namespace ManolaPharm.Persistence.Context
             modelBuilder.ApplyConfiguration(new SupplierConfiguration());
             modelBuilder.ApplyConfiguration(new PurchaseOrderConfiguration());
             modelBuilder.ApplyConfiguration(new SalesOrderConfiguration());
-            modelBuilder.ApplyConfiguration(new AccountsReceivableConfiguration());
-            modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
+            modelBuilder.ApplyConfiguration(new AccountsReceivableConfig());
+            modelBuilder.ApplyConfiguration(new AccountsPayableConfig());
+            
+            modelBuilder.ApplyConfiguration(new EmployeeConfig());
+            modelBuilder.ApplyConfiguration(new EmployeeConfig());
            
             
             

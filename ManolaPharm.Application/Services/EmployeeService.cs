@@ -1,6 +1,5 @@
-﻿using ManolaPharm.Application.DTOs.HRDtos;
-using ManolaPharm.Domain.Entities.HR;
-using ManolaPharm.Persistence;
+﻿using ManolaPharm.Domain.Entities.HR;
+using ManolaPharm.Application.DTOs.HRDtos;
 using ManolaPharm.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,10 +14,9 @@ namespace ManolaPharm.Application.Services
             _context = context;
         }
 
-        // Get all employees
         public async Task<IEnumerable<EmployeeDto>> GetAllAsync()
         {
-            var employees = await _context.Set<Employee>()
+            var employees = await _context.Employees
                 .Include(e => e.Department)
                 .Include(e => e.Role)
                 .ToListAsync();
@@ -27,30 +25,21 @@ namespace ManolaPharm.Application.Services
             {
                 FirstName = e.FirstName,
                 LastName = e.LastName,
-                Address = e.Address,
-                City = e.City,
-                State = e.State,
-                Country = e.Country,
                 Email = e.Email,
                 Phone = e.Phone,
-                Status = e.Status,
-                DateOfBirth = e.DateOfBirth,
-                DateHired = e.DateHired,
-                IsActive = e.IsActive,
-                CreatedAt = e.CreatedAt,
-                UpdatedAt = e.UpdatedAt,
                 DepartmentName = e.Department?.Name,
-                RoleName = e.Role?.Name
+                RoleName = e.Role?.Name,
+                Status = e.Status,
+                DateHired = e.DateHired
             });
         }
 
-        // Get employee by Id
         public async Task<EmployeeDto> GetByIdAsync(Guid id)
         {
-            var e = await _context.Set<Employee>()
-                .Include(emp => emp.Department)
-                .Include(emp => emp.Role)
-                .FirstOrDefaultAsync(emp => emp.Id == id);
+            var e = await _context.Employees
+                .Include(x => x.Department)
+                .Include(x => x.Role)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (e == null) return null;
 
@@ -58,24 +47,15 @@ namespace ManolaPharm.Application.Services
             {
                 FirstName = e.FirstName,
                 LastName = e.LastName,
-                Address = e.Address,
-                City = e.City,
-                State = e.State,
-                Country = e.Country,
                 Email = e.Email,
                 Phone = e.Phone,
-                Status = e.Status,
-                DateOfBirth = e.DateOfBirth,
-                DateHired = e.DateHired,
-                IsActive = e.IsActive,
-                CreatedAt = e.CreatedAt,
-                UpdatedAt = e.UpdatedAt,
                 DepartmentName = e.Department?.Name,
-                RoleName = e.Role?.Name
+                RoleName = e.Role?.Name,
+                Status = e.Status,
+                DateHired = e.DateHired
             };
         }
 
-        // Create new employee
         public async Task<bool> CreateAsync(EmployeeCreateDto dto)
         {
             var employee = new Employee
@@ -83,62 +63,45 @@ namespace ManolaPharm.Application.Services
                 Id = Guid.NewGuid(),
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
-                Address = dto.Address,
-                City = dto.City,
-                State = dto.State,
-                Country = dto.Country,
                 Email = dto.Email,
                 Phone = dto.Phone,
-                DateOfBirth = dto.DateOfBirth,
-                DateHired = dto.DateHired,
                 DepartmentId = dto.DepartmentId,
                 RoleId = dto.RoleId,
-                Status = "Active",
-                IsActive = true,
-                CreatedAt = DateTime.UtcNow
+                DateOfBirth = dto.DateOfBirth,
+                DateHired = dto.DateHired,
+                CreatedAt = DateTime.UtcNow,
+                IsActive = true
             };
 
-            await _context.Set<Employee>().AddAsync(employee);
+            await _context.Employees.AddAsync(employee);
             return await _context.SaveChangesAsync() > 0;
         }
 
-        // Update employee
-        public async Task<bool> UpdateAsync(Guid id, EmployeeUpdateDto dto)
+        public async Task<bool> UpdateAsync(EmployeeUpdateDto dto)
         {
-            var e = await _context.Set<Employee>().FindAsync(id);
-            if (e == null) return false;
+            var employee = await _context.Employees.FindAsync(dto.Id);
+            if (employee == null) return false;
 
-            e.FirstName = dto.FirstName;
-            e.LastName = dto.LastName;
-            e.Address = dto.Address;
-            e.City = dto.City;
-            e.State = dto.State;
-            e.Country = dto.Country;
-            e.Email = dto.Email;
-            e.Phone = dto.Phone;
-            e.DateOfBirth = dto.DateOfBirth;
-            e.DateHired = dto.DateHired;
-            e.DepartmentId = dto.DepartmentId;
-            e.RoleId = dto.RoleId;
-            e.Status = dto.Status;
-            e.IsActive = dto.IsActive;
-            e.UpdatedAt = DateTime.UtcNow;
+            employee.FirstName = dto.FirstName;
+            employee.LastName = dto.LastName;
+            employee.Email = dto.Email;
+            employee.Phone = dto.Phone;
+            employee.DepartmentId = dto.DepartmentId;
+            employee.RoleId = dto.RoleId;
+            employee.Status = dto.Status;
+            employee.DateHired = dto.DateHired;
+            employee.UpdatedAt = DateTime.UtcNow;
 
-            _context.Set<Employee>().Update(e);
+            _context.Employees.Update(employee);
             return await _context.SaveChangesAsync() > 0;
         }
 
-        // Delete employee (soft delete)
         public async Task<bool> DeleteAsync(Guid id)
         {
-            var e = await _context.Set<Employee>().FindAsync(id);
-            if (e == null) return false;
+            var employee = await _context.Employees.FindAsync(id);
+            if (employee == null) return false;
 
-            e.IsActive = false;
-            e.Status = "Inactive";
-            e.UpdatedAt = DateTime.UtcNow;
-
-            _context.Set<Employee>().Update(e);
+            _context.Employees.Remove(employee);
             return await _context.SaveChangesAsync() > 0;
         }
     }

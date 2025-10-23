@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ManolaPharm.Domain.Entities.Sales;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,9 +13,11 @@ namespace ManolaPharm.Domain.Entities.Finance
         [Required]
         public Guid SalesOrderId { get; set; }
 
-        [Required]
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal AmountDue { get; set; }
+        // Navigation property
+        public SalesOrder SalesOrder { get; set; }
+
+        [Required, Column(TypeName = "decimal(18,2)")]
+        public decimal AmountOwed { get; set; }
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal AmountPaid { get; set; } = 0m;
@@ -25,7 +28,7 @@ namespace ManolaPharm.Domain.Entities.Finance
         public DateTime? PaymentDate { get; set; }
 
         [Required, MaxLength(20)]
-        public string Status { get; set; } = "Pending"; // Pending, Paid, Overdue
+        public string Status { get; set; } = "Pending";
 
         [MaxLength(250)]
         public string Remarks { get; set; }
