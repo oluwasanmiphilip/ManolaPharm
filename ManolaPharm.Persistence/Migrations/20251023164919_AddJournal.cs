@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ManolaPharm.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class AddJournal : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -87,6 +87,28 @@ namespace ManolaPharm.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Expenses", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "JournalEntries",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EntryNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    EntryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AccountName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    AccountCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Debit = table.Column<decimal>(type: "decimal(18,2)", nullable: false, defaultValue: 0m),
+                    Credit = table.Column<decimal>(type: "decimal(18,2)", nullable: false, defaultValue: 0m),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false, defaultValue: "Pending"),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_JournalEntries", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -216,6 +238,32 @@ namespace ManolaPharm.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "JournalEntryDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    JournalEntryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AccountName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    AccountCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Debit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Credit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_JournalEntryDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_JournalEntryDetails_JournalEntries_JournalEntryId",
+                        column: x => x.JournalEntryId,
+                        principalTable: "JournalEntries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Inventories",
                 columns: table => new
                 {
@@ -312,8 +360,8 @@ namespace ManolaPharm.Persistence.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     SalesOrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AmountDue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    AmountReceived = table.Column<decimal>(type: "decimal(18,2)", nullable: false, defaultValue: 0m),
+                    AmountOwed = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    AmountPaid = table.Column<decimal>(type: "decimal(18,2)", nullable: false, defaultValue: 0m),
                     DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false, defaultValue: "Pending"),
@@ -380,6 +428,11 @@ namespace ManolaPharm.Persistence.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_JournalEntryDetails_JournalEntryId",
+                table: "JournalEntryDetails",
+                column: "JournalEntryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Payrolls_EmployeeId",
                 table: "Payrolls",
                 column: "EmployeeId");
@@ -409,6 +462,9 @@ namespace ManolaPharm.Persistence.Migrations
                 name: "Inventories");
 
             migrationBuilder.DropTable(
+                name: "JournalEntryDetails");
+
+            migrationBuilder.DropTable(
                 name: "Payrolls");
 
             migrationBuilder.DropTable(
@@ -428,6 +484,9 @@ namespace ManolaPharm.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "JournalEntries");
 
             migrationBuilder.DropTable(
                 name: "Employees");

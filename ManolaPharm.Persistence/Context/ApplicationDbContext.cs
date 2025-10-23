@@ -38,7 +38,11 @@ namespace ManolaPharm.Persistence.Context
         public DbSet<Department> Departments { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
-        
+        public DbSet<JournalEntry> JournalEntries { get; set; }
+        public DbSet<JournalEntryDetail> JournalEntryDetails { get; set; }
+
+
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -58,6 +62,8 @@ namespace ManolaPharm.Persistence.Context
             modelBuilder.ApplyConfiguration(new SalesOrderConfiguration());
             modelBuilder.ApplyConfiguration(new AccountsReceivableConfig());
             modelBuilder.ApplyConfiguration(new AccountsPayableConfig());
+            modelBuilder.ApplyConfiguration(new JournalEntryConfig());
+            modelBuilder.ApplyConfiguration(new JournalEntryDetailConfig());
             
             modelBuilder.ApplyConfiguration(new EmployeeConfig());
             modelBuilder.ApplyConfiguration(new EmployeeConfig());

@@ -62,6 +62,8 @@ builder.Services.AddScoped<ExpenseService>();
 builder.Services.AddScoped<DepartmentService>();
 builder.Services.AddScoped<RoleService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<JournalEntryService>();
+builder.Services.AddScoped<JournalEntryDetailService>();
 
 
 
