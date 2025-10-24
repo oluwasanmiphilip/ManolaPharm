@@ -40,6 +40,11 @@ namespace ManolaPharm.Persistence.Context
         public DbSet<User> Users { get; set; }
         public DbSet<JournalEntry> JournalEntries { get; set; }
         public DbSet<JournalEntryDetail> JournalEntryDetails { get; set; }
+        public DbSet<GeneralLedger> GeneralLedgers { get; set; }
+        public DbSet<TrialBalance> TrialBalances { get; set; }
+        public DbSet<ChartOfAccount> ChartOfAccounts { get; set; }
+        public DbSet<CashBook> CashBooks { get; set; }
+        public DbSet<BankReconciliation> BankReconciliations { get; set; }
 
 
 
@@ -64,12 +69,12 @@ namespace ManolaPharm.Persistence.Context
             modelBuilder.ApplyConfiguration(new AccountsPayableConfig());
             modelBuilder.ApplyConfiguration(new JournalEntryConfig());
             modelBuilder.ApplyConfiguration(new JournalEntryDetailConfig());
-            
+            modelBuilder.ApplyConfiguration(new GeneralLedgerConfig());
+            modelBuilder.ApplyConfiguration(new TrialBalanceConfig());
             modelBuilder.ApplyConfiguration(new EmployeeConfig());
-            modelBuilder.ApplyConfiguration(new EmployeeConfig());
-           
-            
-            
+            modelBuilder.ApplyConfiguration(new ChartOfAccountConfig());
+            modelBuilder.ApplyConfiguration(new CashBookConfig());
+            modelBuilder.ApplyConfiguration(new BankReconciliationConfig());
         }
     }
 }

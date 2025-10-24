@@ -1,11 +1,12 @@
 using ManolaPharm.Application.Services;
 using ManolaPharm.Application.Services.Finance;
-using Microsoft.IdentityModel.Tokens;
 using ManolaPharm.Domain.Entities.HR;
+using ManolaPharm.Persistence.Configurations.Finance;
 using ManolaPharm.Persistence.Context;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -64,6 +65,11 @@ builder.Services.AddScoped<RoleService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<JournalEntryService>();
 builder.Services.AddScoped<JournalEntryDetailService>();
+builder.Services.AddScoped<GeneralLedgerService>();
+builder.Services.AddScoped<TrialBalanceService>();
+builder.Services.AddScoped<ChartOfAccountService>();
+builder.Services.AddScoped<CashBookService>();
+builder.Services.AddScoped<BankReconciliationService>();
 
 
 

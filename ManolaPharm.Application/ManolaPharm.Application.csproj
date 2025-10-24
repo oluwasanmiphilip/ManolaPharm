@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="DTOs\Accounting\" />
     <Folder Include="Interfaces\HR\" />
   </ItemGroup>
 
