@@ -4,6 +4,7 @@ using ManolaPharm.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ManolaPharm.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251024170117_AddFixedAsset")]
+    partial class AddFixedAsset
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -374,48 +377,6 @@ namespace ManolaPharm.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("ChartOfAccounts", (string)null);
-                });
-
-            modelBuilder.Entity("ManolaPharm.Domain.Entities.Finance.Depreciation", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("AccumulatedDepreciation")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("BookValue")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("DepreciationAmount")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("DepreciationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("FixedAssetId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsPosted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Remarks")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FixedAssetId");
-
-                    b.ToTable("Depreciations", (string)null);
                 });
 
             modelBuilder.Entity("ManolaPharm.Domain.Entities.Finance.Expense", b =>
@@ -1316,17 +1277,6 @@ namespace ManolaPharm.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("SalesOrder");
-                });
-
-            modelBuilder.Entity("ManolaPharm.Domain.Entities.Finance.Depreciation", b =>
-                {
-                    b.HasOne("ManolaPharm.Domain.Entities.Finance.FixedAsset", "FixedAsset")
-                        .WithMany()
-                        .HasForeignKey("FixedAssetId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("FixedAsset");
                 });
 
             modelBuilder.Entity("ManolaPharm.Domain.Entities.Finance.JournalEntryDetail", b =>

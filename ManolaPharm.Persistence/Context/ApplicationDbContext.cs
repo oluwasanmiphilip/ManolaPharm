@@ -45,6 +45,8 @@ namespace ManolaPharm.Persistence.Context
         public DbSet<ChartOfAccount> ChartOfAccounts { get; set; }
         public DbSet<CashBook> CashBooks { get; set; }
         public DbSet<BankReconciliation> BankReconciliations { get; set; }
+        public DbSet<FixedAsset> FixedAssets { get; set; }
+        public DbSet<Depreciation> Depreciations { get; set; }
 
 
 
@@ -75,6 +77,8 @@ namespace ManolaPharm.Persistence.Context
             modelBuilder.ApplyConfiguration(new ChartOfAccountConfig());
             modelBuilder.ApplyConfiguration(new CashBookConfig());
             modelBuilder.ApplyConfiguration(new BankReconciliationConfig());
+            modelBuilder.ApplyConfiguration(new FixedAssetConfig());
+            modelBuilder.ApplyConfiguration(new DepreciationConfig());
         }
     }
 }

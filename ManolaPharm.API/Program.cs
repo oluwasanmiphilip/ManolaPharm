@@ -70,6 +70,8 @@ builder.Services.AddScoped<TrialBalanceService>();
 builder.Services.AddScoped<ChartOfAccountService>();
 builder.Services.AddScoped<CashBookService>();
 builder.Services.AddScoped<BankReconciliationService>();
+builder.Services.AddScoped<FixedAssetService>();
+builder.Services.AddScoped<DepreciationService>();
 
 
 
